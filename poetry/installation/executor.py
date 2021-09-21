@@ -17,6 +17,7 @@ from typing import Union
 from cleo.io.null_io import NullIO
 
 from poetry.core.packages.file_dependency import FileDependency
+from poetry.core.packages.utils.utils import url_to_path
 from poetry.core.packages.utils.link import Link
 from poetry.core.pyproject.toml import PyProjectTOML
 from poetry.utils._compat import decode
@@ -675,7 +676,7 @@ class Executor:
                 "sha256:"
                 + FileDependency(
                     package.name,
-                    Path(archive.path) if isinstance(archive, Link) else archive,
+                    url_to_path(archive.url) if isinstance(archive, Link) else archive,
                 ).hash()
             )
             if archive_hash not in {f["hash"] for f in package.files}:
